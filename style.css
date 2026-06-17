@@ -147,7 +147,7 @@
         }
 
         .nav-link {
-            color: var(--grey);
+            color: rgb(255, 255, 255);
             font-size: 13px;
             font-weight: 500;
             text-transform: uppercase;
