@@ -59,34 +59,61 @@
 
     </section>
 
+    <h2 id="comparacion" style="text-align: center; margin-bottom: 20px; text-transform: uppercase; padding-top: 20px;">Antes <span style="color: #3EBFAC;">VS</span> Después</h2>
 
-<div class="comparison-slider">
-    <img class="image-after" src="./img/after.jpg" alt="Después">
+<div class="comparison-slider" style="margin-top: 0px;">
+    <img class="image-after" src="./img/after2.png" alt="Después">
     <span class="label label-after">Después</span>
 
-    <img class="image-before" src="./img/before.png" alt="Antes">
+    <img class="image-before" src="./img/before2.jpg" alt="Antes">
     <span class="label label-before">Antes</span>
 
-    <div class="slider-line" id="drag-line"></div>
-
-    <input type="range" min="0" max="100" value="50" class="slider-input" id="slider-range">
+    <div class="slider-line">
+        <div class="slider-button">
+            <img src="./img/derecha-izquierda.svg" alt="Icono" class="custom-icon">
+        </div>
+    </div>
 </div>
 
+<div class="comparison-slider is-vertical-format" style="margin-top: 60px;">
+    <img class="image-after" src="../img/after3.png" alt="Después">
+    <span class="label label-after">Después</span>
+
+    <img class="image-before" src="../img/before3.jpg" alt="Antes">
+    <span class="label label-before">Antes</span>
+
+    <div class="slider-line">
+        <div class="slider-button">
+            <img src="./img/derecha-izquierda.svg" alt="Icono" class="custom-icon">
+        </div>
+    </div>
+</div>
+
+
 <style>
-    /* Contenedor principal del comparador */
+/* Contenedor principal base */
 .comparison-slider {
     position: relative;
-    width: 80%;
-    max-width: 100%; /* Se adapta al contenedor padre */
-    aspect-ratio: 16 / 9; /* Ajusta esta proporción según tus fotos (ej: 4/3 o 1/1) */
+    width: 60%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     user-select: none;
     margin: auto;
+    cursor: ew-resize;
+    touch-action: pan-y; /* Evita conflicto de scroll vertical en móviles */
 }
 
-/* Estilos para las imágenes */
-.comparison-slider img {
+/* Variante para formato vertical (Retrato) */
+.comparison-slider.is-vertical-format {
+    width: 80%;
+    max-width: 450px; 
+    aspect-ratio: 9 / 16; 
+}
+
+/* Imágenes internas */
+.comparison-slider img:not(.custom-icon) {
     position: absolute;
     top: 0;
     left: 0;
@@ -96,15 +123,11 @@
     pointer-events: none;
 }
 
-/* La imagen del 'Después' va al fondo */
-.image-after {
-    z-index: 1;
-}
-
-/* La imagen del 'Antes' se recorta dinámicamente */
+.image-after { z-index: 1; }
 .image-before {
     z-index: 2;
     clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); 
+    will-change: clip-path; /* Aceleración por hardware */
 }
 
 /* Etiquetas de texto (Antes / Después) */
@@ -124,21 +147,7 @@
 .label-before { left: 15px; z-index: 3; }
 .label-after { right: 15px; z-index: 1; }
 
-/* Input invisible que captura el arrastre */
-.slider-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    opacity: 0;
-    cursor: ew-resize;
-    z-index: 4;
-    margin: 0;
-}
-
-/* Línea divisoria central */
+/* Línea divisoria blanca */
 .slider-line {
     position: absolute;
     top: 0;
@@ -146,63 +155,92 @@
     left: 50%;
     width: 3px;
     background: #fff;
-    z-index: 3;
+    z-index: 5;
     pointer-events: none;
     transform: translateX(-50%);
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    will-change: left;
 }
 
-/* Círculo central con flechas en SVG */
-.slider-line::after {
-    content: '';
+/* El círculo blanco central */
+.slider-button {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
+    width: 44px; /* Tamaño optimizado para dedos en móviles */
+    height: 44px;
     background: #fff;
     border-radius: 50%;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>');
-    background-repeat: no-repeat;
-    background-position: 4px center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.slider-line::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    background: transparent;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>');
-    background-repeat: no-repeat;
-    background-position: 20px center;
-    z-index: 5;
+/* Tu icono personalizado */
+.custom-icon {
+    width: 24px;  /* Ajusta el tamaño que quieras que tenga tu icono */
+    height: 24px;
+    object-fit: contain;
+    pointer-events: none;
+    margin-bottom: 2px;
+}
+
+/* Responsivo para tablets y móviles */
+@media (max-width: 1250px) {
+    .comparison-slider, 
+    .comparison-slider.is-vertical-format {
+        width: 90%;
+        aspect-ratio: 1 / 1; /* Se vuelven cuadrados si el espacio es reducido */
+    }
 }
 </style>
 
+
 <script>
-    const slider = document.getElementById('slider-range');
-const beforeImage = document.querySelector('.image-before');
-const sliderLine = document.getElementById('drag-line');
+document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.comparison-slider');
 
-if (slider && beforeImage && sliderLine) {
-    slider.addEventListener('input', (e) => {
-        const value = e.target.value;
-        
-        // Desplaza la línea guía
-        sliderLine.style.left = `${value}%`;
-        
-        // Corta la imagen superior usando la GPU (clip-path)
-        beforeImage.style.clipPath = `polygon(0 0, ${value}% 0, ${value}% 100%, 0 100%)`;
+    containers.forEach(container => {
+        const beforeImage = container.querySelector('.image-before');
+        const sliderLine = container.querySelector('.slider-line');
+        let isDragging = false;
+
+        // Calcula la posición exacta del arrastre
+        const move = (clientX) => {
+            const rect = container.getBoundingClientRect();
+            let x = clientX - rect.left;
+            let percentage = (x / rect.width) * 100;
+
+            // Restringir límites entre 0 y 100
+            if (percentage < 0) percentage = 0;
+            if (percentage > 100) percentage = 100;
+
+            // Aplicar cambios visuales inmediatos
+            sliderLine.style.left = `${percentage}%`;
+            beforeImage.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
+        };
+
+        // Al presionar (clic o toque de dedo)
+        container.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            container.setPointerCapture(e.pointerId); // Mantiene el rastro aunque salgas de la caja
+            move(e.clientX);
+        });
+
+        // Al mover (ratón o dedo)
+        container.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            move(e.clientX);
+        });
+
+        // Al soltar o cancelar el toque
+        container.addEventListener('pointerup', () => isDragging = false);
+        container.addEventListener('pointercancel', () => isDragging = false);
     });
-}
+});
 </script>
-
 
 
 

@@ -328,7 +328,7 @@
 
         /* SECCIÓN ASIMÉTRICA: EMPRESA (BEIGE) */
         .section-padding {
-            padding: 140px 10%;
+            padding: 70px 10%;
         }
 
         .bg-beige {
@@ -671,7 +671,13 @@
 
         .fixed-buttons{
             display: none;
+            z-index: 999999;
         }
+
+
+
+
+        
 
         /* MEDIA QUERIES EFICIENTES */
         @media(max-width: 1024px) {
